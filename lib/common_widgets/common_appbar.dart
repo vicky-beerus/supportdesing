@@ -25,6 +25,7 @@ class _CommonAppBarState extends State<CommonAppBar> {
     var h = MediaQuery.of(context).size.height;
     var w = MediaQuery.of(context).size.width;
     return AppBar(
+      elevation: 0,
       automaticallyImplyLeading: false,
       backgroundColor: widget.color == null ? Colors.blueGrey : widget.color,
       leading: widget.leading == null && widget.leadinWant == true

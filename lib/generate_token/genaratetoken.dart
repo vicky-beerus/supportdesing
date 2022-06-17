@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:supportclone/common_widgets/common_text.dart';
 import 'package:supportclone/home_page/homepage.dart';
 
 import '../Modal/modal_datas.dart';
@@ -55,9 +56,12 @@ class _GenerateTokenState extends State<GenerateToken> {
                 height: h * 0.05,
               ),
               Container(
-                height: h * 0.9,
-                width: w,
-                color: Colors.white,
+                height: h * 0.55,
+                width: w * 0.95,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.white,
+                ),
                 child: Column(
                   children: [
                     SizedBox(
@@ -99,14 +103,43 @@ class _GenerateTokenState extends State<GenerateToken> {
                     SizedBox(
                       height: h * 0.05,
                     ),
-                    IconButton(
-                        onPressed: () {
-                          generateTokenPost();
-                        },
-                        icon: Icon(Icons.generating_tokens))
                   ],
                 ),
               ),
+              SizedBox(
+                height: h * 0.05,
+              ),
+              Container(
+                height: h * 0.06,
+                width: w,
+                child: Center(
+                  child: Container(
+                    height: h * 0.06sta,
+                    width: w * 0.5,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(30)),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        IconButton(
+                            onPressed: () {
+                              generateTokenPost();
+                            },
+                            icon: Icon(
+                              Icons.generating_tokens,
+                              color: Colors.blueGrey,
+                            )),
+                        CommonText(
+                          text: "Generate Token",
+                          textSize: 15,
+                          textColor: Colors.blueGrey,
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              )
             ],
           ),
         ),
@@ -130,7 +163,7 @@ class _GenerateTokenState extends State<GenerateToken> {
     final token = UserModal(
         id: posting.id,
         date: DateFormat("dd-MM-yyyy").format(DateTime.now()),
-        doctorId: "1",
+        doctorId: "2",
         status: "open",
         phone: phoneNumberController.text.toString(),
         name: nameController.text.toString(),

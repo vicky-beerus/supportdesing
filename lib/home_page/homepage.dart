@@ -1,11 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:supportclone/common_widgets/common_textformfield.dart';
+import 'package:supportclone/home_page/doctor_lists.dart';
 import 'package:supportclone/home_page/tab_page/complete_list.dart';
 import 'package:supportclone/home_page/tab_page/missed_list.dart';
 import 'package:supportclone/home_page/tab_page/open_list.dart';
 
-import '../common_widgets/common_appbar.dart';
+import '../generate_token/genaratetoken.dart';
 import '../service/common_function.dart';
 
 class HomePage extends StatefulWidget {
@@ -34,18 +36,61 @@ class _HomePageState extends State<HomePage> {
       length: 3,
       initialIndex: 1,
       child: Scaffold(
-        appBar: PreferredSize(
-          child: CommonAppBar(
-            text: "Support App",
-            leadinWant: false,
+        drawer: Drawer(
+          child: ListView(
+            children: [
+              DrawerHeader(
+                  child: Container(
+                height: h * 0.1,
+                width: w,
+                decoration: BoxDecoration(color: Colors.blueGrey),
+              ))
+            ],
           ),
-          preferredSize: Size.fromHeight(h * 0.08),
         ),
-        body: Container(
-            height: h * 0.75,
-            width: w,
-            child: TabBarView(
-                children: [MissedList(), OpenList(), CompleteList()])),
+        appBar: AppBar(
+          title: Text("Nalama"),
+          backgroundColor: Colors.blueGrey,
+          elevation: 0,
+          actions: [
+            IconButton(
+                onPressed: () {
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) => GenerateToken()));
+                },
+                icon: const Icon(Icons.add_box_outlined)),
+            IconButton(
+                onPressed: () {}, icon: const Icon(Icons.watch_later_outlined)),
+            IconButton(onPressed: () {}, icon: const Icon(Icons.account_circle))
+          ],
+        ),
+        body: Column(
+          children: [
+            DoctorList(),
+            Container(
+              height: h * 0.08,
+              width: w,
+              color: Colors.blueGrey,
+              child: Center(
+                child: CommonTextFormField(
+                  bodyColor: Colors.white,
+                  suffixWidget: Icon(
+                    Icons.search,
+                    color: Colors.blueGrey,
+                  ),
+                  height: h * 0.06,
+                  width: w * 0.9,
+                  hintText: "search",
+                ),
+              ),
+            ),
+            Container(
+                height: h * 0.55,
+                width: w,
+                child: TabBarView(
+                    children: [MissedList(), OpenList(), CompleteList()])),
+          ],
+        ),
         bottomSheet: Container(
           height: h * 0.08,
           width: w,

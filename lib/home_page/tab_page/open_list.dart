@@ -4,8 +4,6 @@ import 'package:provider/provider.dart';
 
 import '../../Modal/modal_datas.dart';
 import '../../common_widgets/common_text.dart';
-import '../../common_widgets/commoncircleavatar.dart';
-import '../../generate_token/genaratetoken.dart';
 import '../../service/common_function.dart';
 
 class OpenList extends StatefulWidget {
@@ -22,7 +20,7 @@ class _OpenListState extends State<OpenList> {
     var w = MediaQuery.of(context).size.width;
     return Scaffold(
       body: StreamBuilder<List<UserModal>>(
-          stream: geetingUserData(),
+          stream: StreamFuctions().geetingUserData(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return ReorderableListView.builder(
@@ -159,32 +157,29 @@ class _OpenListState extends State<OpenList> {
               );
             }
           }),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.blueGrey,
-        onPressed: () {
-          Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) => GenerateToken()));
-        },
-        child: const Icon(
-          Icons.add,
-          color: Colors.white,
-        ),
-      ),
     );
   }
-
-  Stream<List<UserModal>> geetingUserData() => FirebaseFirestore.instance
-      .collection('token')
-      .where("status", isEqualTo: "open")
-      .snapshots()
-      .map((snapshots) =>
-          snapshots.docs.map((e) => (UserModal.fromJson(e.data()))).toList());
 
   update({id, status}) async {
     final upadting = FirebaseFirestore.instance
         .collection('token')
         .doc(id)
         .update({"status": status});
+  }
+}
+
+class StreamFuctions {
+  Stream<List<UserModal>> geetingUserData({doctorid}) {
+    print(doctorid);
+    print('llllllllllll');
+    return FirebaseFirestore.instance
+        .collection('token')
+        .where(
+          "status",
+          isEqualTo: "open",
+        )
+        .snapshots()
+        .map((snapshots) =>
+            snapshots.docs.map((e) => (UserModal.fromJson(e.data()))).toList());
   }
 }
