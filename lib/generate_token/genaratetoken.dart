@@ -114,7 +114,7 @@ class _GenerateTokenState extends State<GenerateToken> {
                 width: w,
                 child: Center(
                   child: Container(
-                    height: h * 0.06sta,
+                    height: h * 0.06,
                     width: w * 0.5,
                     decoration: BoxDecoration(
                         color: Colors.white,

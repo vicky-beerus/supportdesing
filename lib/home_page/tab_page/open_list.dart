@@ -20,7 +20,8 @@ class _OpenListState extends State<OpenList> {
     var w = MediaQuery.of(context).size.width;
     return Scaffold(
       body: StreamBuilder<List<UserModal>>(
-          stream: StreamFuctions().geetingUserData(),
+          stream: Provider.of<CommonFunction>(context, listen: true)
+              .changeStreamPro,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return ReorderableListView.builder(

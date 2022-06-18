@@ -1,7 +1,17 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+
+import '../Modal/modal_datas.dart';
 
 class CommonFunction extends ChangeNotifier {
   List<Map<String, dynamic>> userDatas = [];
+  Stream<List<UserModal>>? changeStreamPro;
+
+  changingStreams({stream}) {
+    changeStreamPro = stream;
+    notifyListeners();
+  }
+
   List<String> userNameList = [
     "Joe",
     "Emma",
@@ -43,5 +53,19 @@ class CommonFunction extends ChangeNotifier {
     list.removeAt(index);
     print(list);
     notifyListeners();
+  }
+
+  Stream<List<UserModal>> streamFuctionPro({doctorId}) {
+    print("streamis $doctorId");
+    return FirebaseFirestore.instance
+        .collection('token')
+        .where("doctor_id", isEqualTo: doctorId == null ? 1 : doctorId)
+        .where(
+          "status",
+          isEqualTo: "open",
+        )
+        .snapshots()
+        .map((snapshots) =>
+            snapshots.docs.map((e) => (UserModal.fromJson(e.data()))).toList());
   }
 }
