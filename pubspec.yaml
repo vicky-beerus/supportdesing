@@ -33,6 +33,7 @@ dependencies:
   provider:
   select_form_field: "^2.2.0"
   intl:
+  country_code_picker: ^2.0.2
 
 
   # The following adds the Cupertino Icons font to your application.

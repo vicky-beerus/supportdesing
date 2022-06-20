@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:supportclone/common_widgets/common_text.dart';
@@ -21,6 +22,8 @@ class _GenerateTokenState extends State<GenerateToken> {
   TextEditingController phoneNumberController = TextEditingController();
   TextEditingController ageController = TextEditingController();
   TextEditingController doctorController = TextEditingController();
+
+  var countryCode;
 
   List<Map<String, dynamic>> doctorData = [
     {"value": "1", "label": "Hari"},
@@ -76,11 +79,37 @@ class _GenerateTokenState extends State<GenerateToken> {
                     SizedBox(
                       height: h * 0.05,
                     ),
-                    CommonTextFormField(
-                      height: h * 0.06,
-                      width: w * 0.9,
-                      controller: phoneNumberController,
-                      hintText: "Phone",
+                    Container(
+                      height: h * 0.08,
+                      width: w,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Container(
+                            height: h * 0.06,
+                            width: w * 0.2,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(
+                                    color: Colors.grey.withOpacity(0.4))),
+                            child: CountryCodePicker(
+                              initialSelection: 'IN',
+                              showFlag: false,
+                              onChanged: (val) {
+                                setState(() {
+                                  countryCode = val;
+                                });
+                              },
+                            ),
+                          ),
+                          CommonTextFormField(
+                            height: h * 0.06,
+                            width: w * 0.7,
+                            controller: phoneNumberController,
+                            hintText: "Phone",
+                          ),
+                        ],
+                      ),
                     ),
                     SizedBox(
                       height: h * 0.05,
@@ -99,9 +128,6 @@ class _GenerateTokenState extends State<GenerateToken> {
                       height: h * 0.06,
                       width: w * 0.9,
                       textEditingController: doctorController,
-                    ),
-                    SizedBox(
-                      height: h * 0.05,
                     ),
                   ],
                 ),
@@ -172,4 +198,6 @@ class _GenerateTokenState extends State<GenerateToken> {
     final json = token.toJson();
     await posting.set(json);
   }
+
+  getDoctorsData() {}
 }

@@ -35,3 +35,12 @@ class UserModal {
       doctorId: json["doctor_id"],
       date: json['date']);
 }
+
+class DoctorModal {
+  String? doc_id;
+  String? phone;
+  String? doc_firstName;
+  String? doc_lastName;
+
+  DoctorModal({this.doc_id, this.phone, this.doc_firstName, this.doc_lastName});
+}

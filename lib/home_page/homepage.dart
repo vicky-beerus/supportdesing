@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:supportclone/common_widgets/common_text.dart';
 import 'package:supportclone/common_widgets/common_textformfield.dart';
 import 'package:supportclone/home_page/doctor_lists.dart';
 import 'package:supportclone/home_page/tab_page/complete_list.dart';
@@ -44,7 +45,21 @@ class _HomePageState extends State<HomePage> {
                 height: h * 0.1,
                 width: w,
                 decoration: BoxDecoration(color: Colors.blueGrey),
-              ))
+              )),
+              Container(
+                height: h * 0.08,
+                width: w,
+                // color: Colors.red,
+                child: ListTile(
+                    trailing: Icon(
+                      Icons.medical_information,
+                      color: Colors.blueGrey,
+                    ),
+                    title: CommonText(
+                      text: "Doctor",
+                      textSize: 17,
+                    )),
+              )
             ],
           ),
         ),
