@@ -68,4 +68,17 @@ class CommonFunction extends ChangeNotifier {
         .map((snapshots) =>
             snapshots.docs.map((e) => (UserModal.fromJson(e.data()))).toList());
   }
+
+  Stream<List<DoctorModal>> streamDoctors() {
+    // var a = FirebaseFirestore.instance.collection("doctors").snapshots();
+    // var b = a.map((event) =>
+    //     event.docs.map((e) => (DoctorModal.fromJson(e.data()))).toList());
+    return FirebaseFirestore.instance.collection("doctors").snapshots().map(
+        (snapshots) => snapshots.docs
+            .map((e) => (DoctorModal.fromJson(e.data())))
+            .toList());
+    // print(b);
+    // print(a);
+    // return fun;
+  }
 }

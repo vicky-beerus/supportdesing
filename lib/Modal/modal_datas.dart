@@ -43,4 +43,17 @@ class DoctorModal {
   String? doc_lastName;
 
   DoctorModal({this.doc_id, this.phone, this.doc_firstName, this.doc_lastName});
+
+  toJson() => {
+        "doc_id": doc_id,
+        "phone": phone,
+        "doc_firestName": doc_firstName,
+        "doc_lastName": doc_lastName
+      };
+
+  static DoctorModal fromJson(Map<String, dynamic> json) => DoctorModal(
+      doc_id: json["doc_id"],
+      phone: json['phone'],
+      doc_firstName: json['doc_firstname'],
+      doc_lastName: json["doc_lastname"]);
 }

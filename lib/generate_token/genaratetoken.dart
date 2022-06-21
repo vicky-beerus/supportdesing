@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:supportclone/common_widgets/common_text.dart';
 import 'package:supportclone/home_page/homepage.dart';
-
+import 'package:provider/provider.dart';
+import 'package:supportclone/service/common_function.dart';
 import '../Modal/modal_datas.dart';
 import '../common_widgets/common_appbar.dart';
 import '../common_widgets/common_selectformfield.dart';
@@ -24,11 +25,35 @@ class _GenerateTokenState extends State<GenerateToken> {
   TextEditingController doctorController = TextEditingController();
 
   var countryCode;
+  var doctDetails;
+  List<Map<String, dynamic>> data = [];
 
   List<Map<String, dynamic>> doctorData = [
     {"value": "1", "label": "Hari"},
     {"value": "2", "label": "Perasana"}
   ];
+  @override
+  void initState() {
+    // Provider.of<CommonFunction>(context, listen: false).streamDoctors();
+
+    getDoctorsData().then((value) {
+      setState(() {
+        doctDetails = value;
+      });
+
+      for (var i = 0; i < doctDetails.length; i++) {
+        setState(() {
+          data.add({
+            "label": doctDetails[i]["doc_firstname"],
+            "value": doctDetails[i]["doc_id"]
+          });
+        });
+      }
+    });
+    print(data);
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -199,5 +224,12 @@ class _GenerateTokenState extends State<GenerateToken> {
     await posting.set(json);
   }
 
-  getDoctorsData() {}
+  Future getDoctorsData() async {
+    return await FirebaseFirestore.instance
+        .collection("doctors")
+        .snapshots()
+        .map((snapshots) => snapshots.docs
+            .map((e) => (DoctorModal.fromJson(e.data())))
+            .toList());
+  }
 }

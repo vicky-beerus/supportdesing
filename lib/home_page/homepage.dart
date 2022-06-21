@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:supportclone/DRAWER/doctor_page.dart';
 import 'package:supportclone/common_widgets/common_text.dart';
 import 'package:supportclone/common_widgets/common_textformfield.dart';
 import 'package:supportclone/home_page/doctor_lists.dart';
@@ -51,8 +52,14 @@ class _HomePageState extends State<HomePage> {
                 width: w,
                 // color: Colors.red,
                 child: ListTile(
+                    onTap: () {
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => DoctorPage()));
+                    },
                     trailing: Icon(
-                      Icons.medical_information,
+                      Icons.medical_services,
                       color: Colors.blueGrey,
                     ),
                     title: CommonText(
