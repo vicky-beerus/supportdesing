@@ -1,9 +1,10 @@
+import 'dart:math';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:supportclone/Modal/modal_datas.dart';
 import 'package:supportclone/common_widgets/common_appbar.dart';
 import 'package:supportclone/common_widgets/common_text.dart';
-import 'package:supportclone/common_widgets/commoncircleavatar.dart';
-import 'package:provider/provider.dart';
 import 'package:supportclone/home_page/homepage.dart';
 import 'package:supportclone/service/common_function.dart';
 
@@ -42,75 +43,61 @@ class _DoctorPageState extends State<DoctorPage> {
         child: StreamBuilder<List<DoctorModal>>(
             stream: CommonFunction().streamDoctors(),
             builder: (context, snapshot) {
-              return ListView.builder(
-                  itemCount: 2,
-                  itemBuilder: (BuildContext contex, int index) {
-                    return Stack(
-                      children: [
-                        Container(
-                          height: h * 0.09,
-                          width: w,
-                          margin: EdgeInsets.only(bottom: 3),
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Colors.blueGrey),
-                              borderRadius: BorderRadius.circular(30)),
-                        ),
-                        Positioned(
-                          top: h * 0.005,
-                          left: w * 0.02,
-                          child: CommonCircularAvatar(
-                            radius: h * 0.04,
-                            backgroundColor: Colors.blueGrey,
-                            content: CommonText(
-                              text:
-                                  "${snapshot.data![index].doc_firstName.toString().substring(0, 1)}",
-                              textSize: 25,
+              if (snapshot.hasData) {
+                return GridView.builder(
+                    padding: EdgeInsets.all(30),
+                    itemCount: snapshot.data!.length + 1,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisSpacing: 2,
+                        mainAxisSpacing: 2,
+                        crossAxisCount: 2),
+                    itemBuilder: (BuildContext context, int index) {
+                      return Column(
+                        children: [
+                          Container(
+                            height: h * 0.12,
+                            width: w * 0.25,
+                            decoration: BoxDecoration(
+                                color: Colors.primaries[
+                                    Random().nextInt(Colors.primaries.length)],
+                                borderRadius: BorderRadius.circular(2)),
+                            child: index == snapshot.data!.length
+                                ? Center(
+                                    child: Icon(
+                                    Icons.add,
+                                    color: Colors.white,
+                                    size: 35,
+                                  ))
+                                : Center(
+                                    child: CommonText(
+                                      textColor: Colors.white,
+                                      textSize: 35,
+                                      text:
+                                          "${snapshot.data![index].doc_firstName.toString().substring(0, 1)}",
+                                    ),
+                                  ),
+                          ),
+                          Container(
+                            height: h * 0.03,
+                            width: w * 0.25,
+                            child: Center(
+                              child: CommonText(
+                                textColor: Colors.blueGrey,
+                                text: index == snapshot.data!.length
+                                    ? "ADD Doctors"
+                                    : "${snapshot.data![index].doc_firstName}",
+                              ),
                             ),
-                          ),
-                        ),
-                        Positioned(
-                          top: h * 0.007,
-                          left: w * 0.2,
-                          child: CommonText(
-                            text:
-                                "${snapshot.data![index].doc_firstName} ${snapshot.data![index].doc_lastName}",
-                            textSize: 18,
-                            textColor: Colors.grey,
-                          ),
-                        ),
-                        Positioned(
-                          bottom: h * 0.012,
-                          left: w * 0.2,
-                          child: CommonText(
-                            text: "ID: 4545545455",
-                            textSize: 15,
-                            textColor: Colors.grey,
-                          ),
-                        )
-                      ],
-                    );
-                  });
+                          )
+                        ],
+                      );
+                    });
+              } else {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
             }),
-      ),
-      bottomSheet: Container(
-        height: h * 0.1,
-        width: w,
-        child: Center(
-          child: Container(
-            height: h * 0.06,
-            width: w * 0.8,
-            decoration: BoxDecoration(
-                color: Colors.blueGrey,
-                borderRadius: BorderRadius.circular(15)),
-            child: Center(
-              child: CommonText(
-                text: "ADD DOCTORS",
-                textColor: Colors.white,
-                textSize: 18,
-              ),
-            ),
-          ),
-        ),
       ),
     );
   }
