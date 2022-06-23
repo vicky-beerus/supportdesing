@@ -4,6 +4,7 @@ class CommonTextFormField extends StatefulWidget {
   double? height;
   double? width;
   String? hintText;
+  Function(String)? onChange;
   TextEditingController? controller;
   Widget? suffixWidget;
   Color? bodyColor;
@@ -12,6 +13,7 @@ class CommonTextFormField extends StatefulWidget {
       this.height,
       this.hintText,
       this.controller,
+      this.onChange,
       this.bodyColor,
       this.suffixWidget});
 
@@ -30,6 +32,7 @@ class _CommonTextFormFieldState extends State<CommonTextFormField> {
           border: Border.all(color: Colors.grey.withOpacity(0.4)),
           borderRadius: BorderRadius.circular(10)),
       child: TextFormField(
+        onChanged: widget.onChange,
         controller: widget.controller,
         decoration: InputDecoration(
             suffixIcon: widget.suffixWidget,

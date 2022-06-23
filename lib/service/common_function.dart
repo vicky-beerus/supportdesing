@@ -7,9 +7,15 @@ class CommonFunction extends ChangeNotifier {
   List<Map<String, dynamic>> userDatas = [];
   Stream<List<UserModal>>? changeStreamPro;
 
+  Stream<List<DoctorModal>>? searchDoctor;
+
   changingStreams({stream}) {
     changeStreamPro = stream;
     notifyListeners();
+  }
+
+  searchChangingStream({stream}) {
+    searchDoctor = stream;
   }
 
   List<String> userNameList = [
@@ -67,6 +73,16 @@ class CommonFunction extends ChangeNotifier {
         .snapshots()
         .map((snapshots) =>
             snapshots.docs.map((e) => (UserModal.fromJson(e.data()))).toList());
+  }
+
+  Stream<List<DoctorModal>> doctorsSearchStream({givenText}) {
+    return FirebaseFirestore.instance
+        .collection("doctors")
+        .where('phone', isEqualTo: givenText)
+        .snapshots()
+        .map((snapshots) => snapshots.docs
+            .map((e) => (DoctorModal.fromJson(e.data())))
+            .toList());
   }
 
   Stream<List<DoctorModal>> streamDoctors() {
