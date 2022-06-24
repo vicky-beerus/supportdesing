@@ -54,12 +54,16 @@ class _AddDoctorState extends State<AddDoctor> {
               height: h * 0.08,
               width: w * 0.9,
               onChange: (value) {
-                print(value);
-                Provider.of<CommonFunction>(context, listen: false)
-                    .searchChangingStream(
-                        stream: Provider.of<CommonFunction>(context,
-                                listen: false)
-                            .doctorsSearchStream(givenText: value.toString()));
+                setState(() {
+                  print(value);
+                  Provider.of<CommonFunction>(context, listen: false)
+                      .searchChangingStream(
+                          stream: Provider.of<CommonFunction>(context,
+                                  listen: false)
+                              .doctorsSearchStream(
+                                  givenText: value.toString()));
+                  print('zzzzzzzzzzz');
+                });
               },
               controller: doctorSearchController,
               hintText: "Search",
@@ -132,9 +136,13 @@ class _AddDoctorState extends State<AddDoctor> {
                                 top: h * 0.002,
                                 right: w * 0.01,
                                 child: Checkbox(
-                                    value: true,
+                                    value: snapshot.data![index].doc_status,
                                     activeColor: Colors.blueGrey,
-                                    onChanged: (val) {}),
+                                    onChanged: (val) {
+                                      setState(() {
+                                        snapshot.data![index].doc_status = val;
+                                      });
+                                    }),
                               ),
                               Positioned(
                                   bottom: h * 0.02,
@@ -142,15 +150,13 @@ class _AddDoctorState extends State<AddDoctor> {
                                   child: InkWell(
                                     onTap: () {
                                       setState(() {
-                                        generateOtp = Random().nextInt(200000);
+                                        if (snapshot.data![index].doc_status ==
+                                            true) {
+                                          generateOtp =
+                                              Random().nextInt(200000);
+                                        }
+                                        print(generateOtp);
                                       });
-                                      print(generateOtp);
-                                      postOtp(
-                                          id: snapshot.data![index].phone,
-                                          fName: snapshot
-                                              .data![index].doc_firstName,
-                                          lName: snapshot
-                                              .data![index].doc_lastName);
                                     },
                                     child: Container(
                                       height: h * 0.03,
@@ -170,6 +176,14 @@ class _AddDoctorState extends State<AddDoctor> {
                             ],
                           );
                         });
+                  } else if (snapshot.data == null) {
+                    return Center(
+                      child: Container(
+                        child: CommonText(
+                          text: "Search Your Doctors",
+                        ),
+                      ),
+                    );
                   } else {
                     return Center(
                       child: CircularProgressIndicator(),

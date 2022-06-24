@@ -78,7 +78,8 @@ class CommonFunction extends ChangeNotifier {
   Stream<List<DoctorModal>> doctorsSearchStream({givenText}) {
     return FirebaseFirestore.instance
         .collection("doctors")
-        .where('phone', isEqualTo: givenText)
+        .where('phone',
+            isGreaterThanOrEqualTo: givenText, isLessThan: givenText + 'z')
         .snapshots()
         .map((snapshots) => snapshots.docs
             .map((e) => (DoctorModal.fromJson(e.data())))
