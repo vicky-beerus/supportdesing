@@ -1,12 +1,15 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:numeric_keyboard/numeric_keyboard.dart';
+import 'package:supportclone/DRAWER/add_doctor_page.dart';
 
 class OtpPage extends StatefulWidget {
   String? docFname;
   String? docLname;
   int? currentOtp;
+  String? docId;
 
-  OtpPage({this.docFname, this.docLname, this.currentOtp});
+  OtpPage({this.docFname, this.docLname, this.currentOtp, this.docId});
 
   @override
   _OtpPageState createState() => _OtpPageState();
@@ -117,6 +120,11 @@ class _OtpPageState extends State<OtpPage> {
                         print("current otp ${widget.currentOtp}");
                         if (widget.currentOtp.toString() == text) {
                           print("go on");
+                          addAssignedDoctors(
+                              doc_lastName: widget.docLname,
+                              doc_fristName: widget.docFname,
+                              id: "8072031619",
+                              doc_phone: widget.docId);
                         } else {
                           print("no way");
                         }
@@ -168,5 +176,28 @@ class _OtpPageState extends State<OtpPage> {
         ),
       ),
     );
+  }
+
+  // update({id, status}) async {
+  //   final upadting = FirebaseFirestore.instance
+  //       .collection('token')
+  //       .doc(id)
+  //       .update({"status": status});
+  // }
+
+  addAssignedDoctors({id, doc_fristName, doc_lastName, doc_phone}) {
+    final addAssignedDoctor = FirebaseFirestore.instance
+        .collection("Assistants")
+        .doc(id)
+        .set({
+      "assignedDoctors": FieldValue.arrayUnion([
+        {
+          "firstname": doc_fristName,
+          " gender": doc_lastName,
+          " lastname": doc_phone
+        },
+      ])
+    }).whenComplete(() => Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => AddDoctor())));
   }
 }

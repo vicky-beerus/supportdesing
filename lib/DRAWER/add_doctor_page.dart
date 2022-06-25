@@ -163,6 +163,9 @@ class _AddDoctorState extends State<AddDoctor> {
                                                         docFname: snapshot
                                                             .data![index]
                                                             .doc_firstName,
+                                                        docId: snapshot
+                                                            .data![index]
+                                                            .doc_id,
                                                         docLname: snapshot
                                                             .data![index]
                                                             .doc_lastName,

@@ -88,3 +88,41 @@ class MessageModal {
       message: json["message"],
       message_id: json["id"]);
 }
+
+class AssistantsModal {
+  String? age;
+  String? firstname;
+  String? gender;
+  String? lastname;
+  String? phonenumber;
+  String? status;
+  List<Map<String, dynamic>>? assignedDoctors;
+
+  AssistantsModal(
+      {this.age,
+      this.firstname,
+      this.gender,
+      this.lastname,
+      this.phonenumber,
+      this.status,
+      this.assignedDoctors});
+
+  toJosn() => {
+        "age": age,
+        "firstname": firstname,
+        "gender": gender,
+        "lastname": lastname,
+        "phonenumber": phonenumber,
+        "status": status,
+        "assignedDoctors": assignedDoctors,
+      };
+
+  static AssistantsModal fromJson(Map<String, dynamic> json) => AssistantsModal(
+      age: json["age"],
+      firstname: json["firstname"],
+      assignedDoctors: json["assignedDoctors"],
+      lastname: json["lastname"],
+      phonenumber: json["phonenumber"],
+      status: json["status"],
+      gender: json["gener"]);
+}
