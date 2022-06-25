@@ -65,3 +65,26 @@ class DoctorModal {
       doc_lastName: json["doc_lastname"],
       doc_status: json["doc_status"]);
 }
+
+class MessageModal {
+  String? message_id;
+  String? doc_firstname;
+  String? doc_lastname;
+  String? message;
+
+  MessageModal(
+      {this.message_id, this.doc_firstname, this.doc_lastname, this.message});
+
+  toJson() => {
+        "doc_firstname": doc_firstname,
+        "doc_lastname": doc_lastname,
+        "id": message_id,
+        "message": message,
+      };
+
+  static MessageModal fromJson(Map<String, dynamic> json) => MessageModal(
+      doc_firstname: json["doc_firstname"],
+      doc_lastname: json["doc_lastname"],
+      message: json["message"],
+      message_id: json["id"]);
+}

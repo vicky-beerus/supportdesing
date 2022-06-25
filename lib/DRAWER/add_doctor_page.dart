@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:supportclone/DRAWER/otp_page.dart';
 import 'package:supportclone/Modal/modal_datas.dart';
 import 'package:supportclone/common_widgets/common_text.dart';
 import 'package:supportclone/common_widgets/common_textformfield.dart';
@@ -154,13 +155,25 @@ class _AddDoctorState extends State<AddDoctor> {
                                             true) {
                                           generateOtp =
                                               Random().nextInt(200000);
+                                          Navigator.pushReplacement(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) => OtpPage(
+                                                        currentOtp: generateOtp,
+                                                        docFname: snapshot
+                                                            .data![index]
+                                                            .doc_firstName,
+                                                        docLname: snapshot
+                                                            .data![index]
+                                                            .doc_lastName,
+                                                      )));
                                         }
                                         print(generateOtp);
                                       });
                                     },
                                     child: Container(
                                       height: h * 0.03,
-                                      width: w * 0.2,
+                                      width: w * 0.25,
                                       decoration: BoxDecoration(
                                           color: Colors.white,
                                           borderRadius:
@@ -168,7 +181,7 @@ class _AddDoctorState extends State<AddDoctor> {
                                       child: Center(
                                         child: CommonText(
                                           textColor: Colors.blueGrey,
-                                          text: "Send otp >",
+                                          text: "Send otp doctor",
                                         ),
                                       ),
                                     ),
@@ -203,6 +216,19 @@ class _AddDoctorState extends State<AddDoctor> {
       "doc_lastname": lName,
       "otp": generateOtp.toString(),
       "phone": id,
+    }).whenComplete(() => Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => OtpPage())));
+    ;
+  }
+
+  postMessage({doc_firstname, doc_lastname, id, message}) {
+    final postMesaage =
+        FirebaseFirestore.instance.collection('messages').doc(id).set({
+      "doc_firstname": doc_firstname,
+      "doc_lastname": doc_lastname,
+      "id": id,
+      "message":
+          "Hello, Dr.${doc_firstname}${doc_lastname}, vijay wants to be your assistant there otp: ${generateOtp}, If you want to proceed further",
     });
   }
 }
