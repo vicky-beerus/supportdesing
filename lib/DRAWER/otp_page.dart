@@ -189,12 +189,14 @@ class _OtpPageState extends State<OtpPage> {
     final addAssignedDoctor = FirebaseFirestore.instance
         .collection("Assistants")
         .doc(id)
-        .set({
+        .collection("assignedDoctors")
+        .doc(id)
+        .update({
       "assignedDoctors": FieldValue.arrayUnion([
         {
-          "firstname": doc_fristName,
-          " gender": doc_lastName,
-          " lastname": doc_phone
+          "drFname": doc_fristName,
+          "drLname": doc_lastName,
+          "phone": doc_phone,
         },
       ])
     }).whenComplete(() => Navigator.pushReplacement(

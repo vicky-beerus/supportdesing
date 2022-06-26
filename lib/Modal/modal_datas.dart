@@ -126,3 +126,28 @@ class AssistantsModal {
       status: json["status"],
       gender: json["gener"]);
 }
+
+class AssisAssignedDoctors {
+  String? drFname;
+  String? drLname;
+  String? phone;
+
+  AssisAssignedDoctors({this.drFname, this.drLname, this.phone});
+
+  toJson() => {"drFname": drFname, "drLname": drLname, "phone": phone};
+
+  static AssisAssignedDoctors fromJson(Map<String, dynamic> json) =>
+      AssisAssignedDoctors(
+        drFname: json["drFname"],
+        drLname: json["drLname"],
+        phone: json["phone"],
+      );
+}
+
+// class A {
+//   List<Map<String,dynamic>>? value;
+//
+//   A({this.value});
+//
+//   tojson
+// }

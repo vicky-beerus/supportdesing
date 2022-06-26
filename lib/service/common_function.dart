@@ -6,7 +6,7 @@ import '../Modal/modal_datas.dart';
 class CommonFunction extends ChangeNotifier {
   List<Map<String, dynamic>> userDatas = [];
   Stream<List<UserModal>>? changeStreamPro;
-
+  var assisDocs;
   Stream<List<DoctorModal>>? searchDoctor;
 
   changingStreams({stream}) {
@@ -101,5 +101,24 @@ class CommonFunction extends ChangeNotifier {
         .map((snapshots) => snapshots.docs
             .map((e) => (AssistantsModal.fromJson(e.data())))
             .toList());
+  }
+
+  streamAssisAssignedDoctors({id}) {
+    return FirebaseFirestore.instance
+        .collection("Assistants")
+        .doc(id)
+        .collection("assignedDoctors")
+        .doc(id)
+        .get()
+        .then((value) {
+      assisDocs = value;
+      print(value);
+      notifyListeners();
+    });
+
+    // .snapshots()
+    // .map((event) => event.docs
+    //     .map((e) => (AssisAssignedDoctors.fromJson(e.data())))
+    //     .toList());
   }
 }
