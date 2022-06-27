@@ -24,6 +24,9 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
+    Provider.of<CommonFunction>(context, listen: false).changingStreams(
+        stream: Provider.of<CommonFunction>(context, listen: false)
+            .streamFuctionPro(doctorId: "1")); // Strea
     Provider.of<CommonFunction>(context, listen: false).genarateList();
     // Provider.of<CommonFunction>(context, listen: false).geetingUserData();
 

@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:numeric_keyboard/numeric_keyboard.dart';
-import 'package:supportclone/DRAWER/add_doctor_page.dart';
+import 'package:supportclone/DRAWER/doctor_page.dart';
 
 class OtpPage extends StatefulWidget {
   String? docFname;
@@ -120,11 +120,13 @@ class _OtpPageState extends State<OtpPage> {
                         print("current otp ${widget.currentOtp}");
                         if (widget.currentOtp.toString() == text) {
                           print("go on");
-                          addAssignedDoctors(
-                              doc_lastName: widget.docLname,
-                              doc_fristName: widget.docFname,
-                              id: "8072031619",
-                              doc_phone: widget.docId);
+
+                          postassisDoc(
+                            doc_firstName: widget.docFname,
+                            doc_number: widget.docId,
+                            doc_lastName: widget.docLname,
+                            id: "8072031619",
+                          );
                         } else {
                           print("no way");
                         }
@@ -185,21 +187,17 @@ class _OtpPageState extends State<OtpPage> {
   //       .update({"status": status});
   // }
 
-  addAssignedDoctors({id, doc_fristName, doc_lastName, doc_phone}) {
-    final addAssignedDoctor = FirebaseFirestore.instance
-        .collection("Assistants")
-        .doc(id)
-        .collection("assignedDoctors")
-        .doc(id)
-        .update({
-      "assignedDoctors": FieldValue.arrayUnion([
-        {
-          "drFname": doc_fristName,
-          "drLname": doc_lastName,
-          "phone": doc_phone,
-        },
-      ])
+  postassisDoc({id, doc_firstName, doc_lastName, doc_number}) async {
+    var posting = FirebaseFirestore.instance.collection('Assistants').doc(id);
+    final obj = {
+      "drFname": doc_firstName,
+      "drLname": doc_lastName,
+      "phone": doc_number
+    };
+    await posting.update({
+      'assigneddoctors': FieldValue.arrayUnion([obj])
     }).whenComplete(() => Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => AddDoctor())));
+        context, MaterialPageRoute(builder: (context) => DoctorPage())));
+    ;
   }
 }
