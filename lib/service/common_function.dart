@@ -8,6 +8,7 @@ class CommonFunction extends ChangeNotifier {
   Stream<List<UserModal>>? changeStreamPro;
   var assisDocs;
   var doctorsList;
+  List searchAllDcos = [];
   Stream<List<DoctorModal>>? searchDoctor;
 
   changingStreams({stream}) {
@@ -103,6 +104,10 @@ class CommonFunction extends ChangeNotifier {
             .map((e) => (AssistantsModal.fromJson(e.data())))
             .toList());
   }
+
+//  Stream<List<DoctorModal>> streamSearchDoc({id}){
+//     return FirebaseFirestore.instance.collection("doctors").where("p").snapshots().map((snapshots) => snapshots.d)
+// }
 
   getAssisDocs({id}) async {
     await FirebaseFirestore.instance
